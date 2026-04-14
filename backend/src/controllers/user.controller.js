@@ -5,6 +5,7 @@ import db from '../db/index.js';
 import { usersTable } from '../db/schemas/users.js';
 import { sql } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
+import { uploadOnCloudinary } from '../services/cloundinary.service.js';
 import jwt from 'jsonwebtoken';
 
 const SALT_ROUNDS = 10;
@@ -19,7 +20,6 @@ export const registerUser = asyncHandler(async (req, res) => {
         interests,
         githubRepoLink,
         portfolioLink,
-        profilePhotLink
     } = req.body;
 
     if (!email || !fullName || !userName || !password) {
@@ -34,6 +34,18 @@ export const registerUser = asyncHandler(async (req, res) => {
     if (existingUsers.length) {
         throw new ApiError(409, "User already exists");
     }
+
+
+    const profilePhotoLocalPath = req.file?.path;
+    
+
+    if (!profilePhotoLocalPath) {
+        throw new ApiError(400, "Profile photo file is required");
+    }
+
+    const uploaded = await uploadOnCloudinary(profilePhotoLocalPath);
+    const profilePhotLink = uploaded?.url;
+
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const newUser = await db
@@ -64,17 +76,15 @@ export const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(500, "User creation failed");
     }
 
+    
     const user = newUser[0];
 
     return res.status(201).json(
         new ApiResponse(201, "User registered successfully", {
-            userId: user.userId,
-            email: user.email,
-            fullName: user.fullName,
-            userName: user.userName,
-            profilePhotLink: user.profilePhotLink,
+           user: user
         })
     );
+
 });
 
 // --- LOGIN ---
@@ -118,13 +128,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
     return res.status(200).json(
         new ApiResponse(200, "Login successful", {
-            user: {
-                userId: user.userId,
-                email: user.email,
-                fullName: user.fullName,
-                userName: user.userName,
-                profilePhotLink: user.profilePhotLink,
-            },
+            user: user,
             accessToken: token,
         })
     );
