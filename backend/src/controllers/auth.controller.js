@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken';
 const SALT_ROUNDS = 10;
 
 // --- REGISTER ---
-export const registerUser = asyncHandler(async (req, res, next) => {
+export const registerUser = asyncHandler(async (req, res) => {
     const { email, fullName, userName, password } = req.body;
 
     if (!email || !fullName || !userName || !password) {
@@ -62,7 +62,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 });
 
 // --- LOGIN ---
-export const loginUser = asyncHandler(async (req, res, next) => {
+export const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
