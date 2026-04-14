@@ -5,13 +5,17 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -r dotenv/config src/index.js"
+    "dev": "nodemon -r dotenv/config src/index.js",
+    "lint": "eslint ."
   },
   "author": "Siddesh poojary",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/pg": "^8.20.0",
     "drizzle-kit": "^0.31.10",
+    "eslint": "^10.2.0",
+    "globals": "^17.5.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "tsx": "^4.21.0"
