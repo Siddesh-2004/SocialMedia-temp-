@@ -11,7 +11,16 @@ const SALT_ROUNDS = 10;
 
 // --- REGISTER ---
 export const registerUser = asyncHandler(async (req, res) => {
-    const { email, fullName, userName, password } = req.body;
+    const {
+        email,
+        fullName,
+        userName,
+        password,
+        interests,
+        githubRepoLink,
+        portfolioLink,
+        profilePhotLink
+    } = req.body;
 
     if (!email || !fullName || !userName || !password) {
         throw new ApiError(400, "All fields are required");
@@ -27,7 +36,6 @@ export const registerUser = asyncHandler(async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-
     const newUser = await db
         .insert(usersTable)
         .values({
@@ -35,14 +43,22 @@ export const registerUser = asyncHandler(async (req, res) => {
             fullName,
             userName,
             password: hashedPassword,
+            interests: interests || [],
+            githubRepoLink: githubRepoLink || null,
+            portfolioLink: portfolioLink || null,
+            profilePhotLink: profilePhotLink || null,
         })
         .returning({
             userId: usersTable.userId,
             email: usersTable.email,
             fullName: usersTable.fullName,
             userName: usersTable.userName,
+            interests: usersTable.interests,
+            githubRepoLink: usersTable.githubRepoLink,
+            portfolioLink: usersTable.portfolioLink,
             profilePhotLink: usersTable.profilePhotLink,
         });
+
 
     if (!newUser || newUser.length === 0) {
         throw new ApiError(500, "User creation failed");

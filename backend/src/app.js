@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import authRoutes from './routes/auth.routes.js'
 const app = express();
 
 
@@ -20,7 +19,10 @@ app.use(express.static("public"));
 
 app.use(cookieParser());
 
-app.use("/api/auth",authRoutes);
+import userRoutes from './routes/user.routes.js'
+
+app.use("/api/users",userRoutes);
+
 
 app.use("/",(req,res)=>{
     res.send("Social Media backend API is running!");
