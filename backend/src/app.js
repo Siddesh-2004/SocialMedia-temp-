@@ -19,6 +19,16 @@ app.use(express.static("public"));
 
 app.use(cookieParser());
 
+
+
+import eventRouter from "./routes/event.router.js"
+app.use("/api/v1/events", eventRouter);
+
+
+
+
+
+
 export default app;
 
 
