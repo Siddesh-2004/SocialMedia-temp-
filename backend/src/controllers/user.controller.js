@@ -46,6 +46,10 @@ export const registerUser = asyncHandler(async (req, res) => {
     const uploaded = await uploadOnCloudinary(profilePhotoLocalPath);
     const profilePhotLink = uploaded?.url;
 
+    // Parse interests string into array
+    const interestsArray = interests 
+        ? (typeof interests === 'string' ? interests.split(',').map(i => i.trim()) : interests)
+        : [];
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const newUser = await db
@@ -55,7 +59,7 @@ export const registerUser = asyncHandler(async (req, res) => {
             fullName,
             userName,
             password: hashedPassword,
-            interests: interests || [],
+            interests: interestsArray,
             githubRepoLink: githubRepoLink || null,
             portfolioLink: portfolioLink || null,
             profilePhotLink: profilePhotLink || null,
