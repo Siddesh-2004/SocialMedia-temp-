@@ -15,7 +15,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
         }
 
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
+        
         const users = await db
             .select()
             .from(usersTable)
@@ -28,8 +28,8 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
         }
 
         // Strip sensitive fields before attaching to req
-         const { password: _password, refreshToken: _refreshToken, ...safeUser } = user;
-        req.user = safeUser;
+        //  const { password: _password, refreshToken: _refreshToken, ...safeUser } = user;
+         req.user = user;
         
         next();
     } catch (error) {

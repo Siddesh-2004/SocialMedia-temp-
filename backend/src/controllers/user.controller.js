@@ -32,7 +32,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
 
         return { accessToken, refreshToken };
     } catch (err) {
-        throw new ApiError(500, "Something went wrong while generating tokens");
+        throw new ApiError(500, err?.message || "Something went wrong while generating tokens");
     }
 };
 
@@ -155,8 +155,10 @@ export const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(500, "JWT secret not set");
     }
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user.userId);
-    const { password: _password, refreshToken: _refreshToken, ...loggedInUser } = user;
+    //const { password: _password, refreshToken: _refreshToken, ...loggedInUser } = user;
     // password and refreshToken are extracted but not sent — loggedInUser is clean
+    const { userId, fullName, interests, profilePhotoLink } = user;
+    const loggedInUser = { userId, email, fullName, userName, interests, profilePhotoLink };
 
     const options = {
         httpOnly: true,
@@ -170,7 +172,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 {
-                    user: loggedInUser, accessToken, refreshToken
+                    user: loggedInUser
                 },
                 "User logged In Successfully",
                 200
