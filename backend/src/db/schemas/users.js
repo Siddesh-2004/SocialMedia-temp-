@@ -11,7 +11,8 @@ export const usersTable = table("users", {
   interests: t.varchar().array(),
   githubRepoLink: t.varchar(),
   portfolioLink:t.varchar(),
-  profilePhotLink:t.varchar(),
+  profilePhotoLink:t.varchar(),
+  refreshToken: t.varchar(),
   ...timestamps
 },(table)=>[
     t.check('fullName_check', sql`length(${table.fullName}) >= 2 AND length(${table.fullName}) <= 100`),
