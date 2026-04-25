@@ -28,7 +28,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
         }
 
         // Strip sensitive fields before attaching to req
-        const { password, refreshToken, ...safeUser } = user;
+         const { password: _password, refreshToken: _refreshToken, ...safeUser } = user;
         req.user = safeUser;
         
         next();

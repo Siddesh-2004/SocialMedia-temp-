@@ -31,7 +31,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
             .where(eq(usersTable.userId, userId));
 
         return { accessToken, refreshToken };
-    } catch (error) {
+    } catch (err) {
         throw new ApiError(500, "Something went wrong while generating tokens");
     }
 };
@@ -155,7 +155,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(500, "JWT secret not set");
     }
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user.userId);
-    const { password: _, refreshToken: __, ...loggedInUser } = user;
+    const { password: _password, refreshToken: _refreshToken, ...loggedInUser } = user;
     // password and refreshToken are extracted but not sent — loggedInUser is clean
 
     const options = {
