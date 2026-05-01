@@ -3,15 +3,11 @@ import * as t from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { timestamps } from "./timestamps.js";
 
-// import { eventPostsTable } from "./event_post.js"; will need if eventId is used
 import { usersTable } from "./users.js";
 
 export const partnerRequestsTable = table("partner_request", {
   requestId: t.integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: t.integer().notNull().references(() => usersTable.userId),
-  
-  //optional: not sure if event id is always required, events from outside the site can be present
-  //eventId: t.integer().references(() => eventPostsTable.eventId),
   
   title: t.varchar().notNull(),
   description: t.text().notNull(),
