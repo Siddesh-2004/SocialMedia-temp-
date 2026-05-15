@@ -1,8 +1,8 @@
 import asyncHandler from '../utils/asynchandler.js';
-import { ApiError } from '../utils/apiErrors.js';
+import ApiError from '../utils/apiErrors.js';
 import ApiResponse from '../utils/apiResponse.js';
 import db from '../db/index.js';
-import { usersTable } from '../db/schemas/users.js';
+import { usersTable } from '../db/schemas/users.schema.js';
 import { sql, eq, or } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
 import { uploadOnCloudinary } from '../services/cloudinary.service.js';

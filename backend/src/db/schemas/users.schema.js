@@ -13,7 +13,8 @@ export const usersTable = table(
     interests: t.varchar().array(),
     githubRepoLink: t.varchar(),
     portfolioLink: t.varchar(),
-    profilePhotLink: t.varchar(),
+    profilePhotoLink: t.varchar(),
+    refreshToken: t.varchar(),
     ...timestamps,
   },
   (table) => [
