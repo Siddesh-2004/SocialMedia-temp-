@@ -2,8 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import userRoutes from './routes/user.routes.js';
-import eventRouter from "./routes/event.router.js";
+
 
 const app = express();
 
@@ -24,14 +23,25 @@ app.use(express.urlencoded({
 app.use(express.static("public"));
 
 app.use(cookieParser());
-
 // Routes
-app.use("/api/users", userRoutes);
-app.use("/api/v1/events", eventRouter);
 
-// Default route
-app.use("/", (req, res) => {
-    res.send("Social Media backend API is running!");
-});
+
+
+// User Routes
+import userRoutes from './routes/user.routes.js';
+app.use("/api/users", userRoutes);
+// Event Routes
+import eventRouter from "./routes/event.routes.js";
+app.use("/api/v1/events", eventRouter);
+// Partner Routes
+import partnerRouter from "./routes/partner.routes.js";
+app.use("/api/v1/partner", partnerRouter);
+
+
+
+
+
+
+
 
 export default app;

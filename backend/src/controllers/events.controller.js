@@ -32,8 +32,8 @@ const createPostEvents = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid participantsPerTeam value");
     }
 
-    console.log(req.file);
     const brochureImagepath = req.file?.path;
+    console.log(brochureImagepath);
 
     let brochureImageLink;
     if (brochureImagepath) {
@@ -49,26 +49,29 @@ const createPostEvents = asyncHandler(async (req, res) => {
             throw new ApiError(500, "Error uploading brochure image");
         }
     }
-
-    console.log("haiii");
-    const newEvent = await db.insert(eventPostsTable).values({
-        eventName,
-        maxTeams,
-        participantsPerTeam,
-        description,
-        requirements,
-        eventDateAndTime,
-        regFormLink,
-        contactDetails,
-        LocationDetails,
-        organizerId,
-        brochureImageLink
-    }).returning();
-
-    if (!newEvent) {
-        throw new ApiError(500, "Error creating event");
+    console.log("haiiiiiiiiiiiii");
+    try{
+        const newEvent = await db.insert(eventPostsTable).values({
+            eventName,
+            maxTeams,
+            participantsPerTeam,
+            description,
+            requirements,
+            eventDateAndTime,
+            regFormLink,
+            contactDetails,
+            LocationDetails,
+            organizerId,
+            brochureImageLink
+        }).returning();
+        if(!newEvent){
+            throw new ApiError(500, "Error creating event");
+        }
+        return res.status(201).json(new ApiResponse(201, newEvent, "Event created successfully"));
     }
-    return res.status(201).json(new ApiResponse(201, newEvent, "Event created successfully"));
+    catch(error){
+        throw new ApiError(500, error.message||"Error while inserting into db");
+    }   
 
 });
 
