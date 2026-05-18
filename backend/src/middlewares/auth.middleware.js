@@ -1,8 +1,8 @@
-import { ApiError } from "../utils/apiErrors.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import ApiError from "../utils/apiErrors.js";
+import asyncHandler from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import db from "../db/index.js";
-import { usersTable } from "../db/schemas/users.js";
+import { usersTable } from "../db/schemas/users.schema.js";
 import { eq } from "drizzle-orm";
 
 export const verifyJWT = asyncHandler(async (req, _, next) => {

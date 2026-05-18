@@ -77,17 +77,12 @@ const createPostEvents = asyncHandler(async (req, res) => {
 
 
 const getAllEvents = asyncHandler(async (req, res) => {
-
     const events = await db
         .select()
         .from(eventPostsTable);
 
     return res.status(200).json(
-        new ApiResponse(
-            200,
-            events,
-            "All events fetched successfully"
-        )
+        new ApiResponse(events, "All events fetched successfully", 200)
     );
 
 });
@@ -95,26 +90,43 @@ const getAllEvents = asyncHandler(async (req, res) => {
 
 const getEventById = asyncHandler(async (req, res) => {
 
+    
     const eventId = parseInt(req.params.eventId);
     if (isNaN(eventId)) {
         throw new ApiError(400, "Invalid event ID");
     }
-
+    
     const event = await db
-        .select()
-        .from(eventPostsTable)
-        .where(eq(eventPostsTable.eventId, eventId));
-
+    .select()
+    .from(eventPostsTable)
+    .where(eq(eventPostsTable.eventId, eventId));
+    
     if (!event || event.length === 0) {
         throw new ApiError(404, "Event not found");
     }
+    
+    return res.status(200).json(
+       new ApiResponse(event[0], "Event fetched successfully", 200)
+    );
+});
+
+const getEventByUserId = asyncHandler(async (req, res) => {
+    const organizerId = parseInt(req.params.userId);
+    if (isNaN(organizerId)) {
+        throw new ApiError(400, "Invalid user ID");
+    }
+
+    const events = await db
+        .select()
+        .from(eventPostsTable)
+        .where(eq(eventPostsTable.organizerId, organizerId));
+
+    if (!events || events.length === 0) {
+        throw new ApiError(404, "No events found for this user");
+    }
 
     return res.status(200).json(
-        new ApiResponse(
-            200,
-            event[0],
-            "Event fetched successfully"
-        )
+        new ApiResponse(events, "User events fetched successfully", 200)
     );
 
 });
@@ -122,5 +134,6 @@ const getEventById = asyncHandler(async (req, res) => {
 export {
     createPostEvents,
     getAllEvents,
-    getEventById
+    getEventById,
+    getEventByUserId
 };
