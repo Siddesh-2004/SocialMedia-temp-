@@ -1,0 +1,289 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------- */
+/* Luminal Developer System — design tokens (Tailwind v4 @theme)    */
+/* ---------------------------------------------------------------- */
+@theme {
+  /* Colors */
+  --color-surface-elevated: #161b22;
+  --color-secondary-container: #448fff;
+  --color-glow-cyan: rgba(0, 255, 255, 0.3);
+  --color-outline: #988ca0;
+  --color-on-error: #690005;
+  --color-tertiary-container: #006f6f;
+  --color-on-error-container: #ffdad6;
+  --color-on-secondary-fixed-variant: #004590;
+  --color-on-background: #e2e2e8;
+  --color-on-secondary-container: #002859;
+  --color-surface-base: #0a0c10;
+  --color-tertiary-fixed-dim: #00dddd;
+  --color-surface-dim: #111318;
+  --color-on-primary: #480081;
+  --color-inverse-on-surface: #2f3035;
+  --color-surface-container-low: #1a1c20;
+  --color-outline-variant: #4c4354;
+  --color-surface-container-highest: #333539;
+  --color-error: #ffb4ab;
+  --color-secondary-fixed: #d7e2ff;
+  --color-secondary: #abc7ff;
+  --color-inverse-primary: #8422dc;
+  --color-surface-container: #1e2024;
+  --color-glow-purple: rgba(138, 43, 226, 0.4);
+  --color-primary-fixed-dim: #dcb8ff;
+  --color-on-primary-fixed-variant: #6700b5;
+  --color-on-tertiary-fixed: #002020;
+  --color-on-surface-variant: #cfc2d7;
+  --color-surface-tint: #dcb8ff;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-primary-fixed: #efdbff;
+  --color-surface: #111318;
+  --color-secondary-fixed-dim: #abc7ff;
+  --color-on-tertiary: #003737;
+  --color-tertiary: #00dddd;
+  --color-surface-variant: #333539;
+  --color-on-primary-container: #eed9ff;
+  --color-surface-container-high: #282a2e;
+  --color-tertiary-fixed: #00fbfb;
+  --color-on-secondary: #002f66;
+  --color-surface-container-lowest: #0c0e12;
+  --color-on-primary-fixed: #2c0051;
+  --color-primary: #dcb8ff;
+  --color-surface-bright: #37393e;
+  --color-glass-fill: rgba(22, 27, 34, 0.7);
+  --color-on-surface: #e2e2e8;
+  --color-on-secondary-fixed: #001b3f;
+  --color-error-container: #93000a;
+  --color-background: #111318;
+  --color-on-tertiary-container: #00f9f9;
+  --color-primary-container: #8a2be2;
+  --color-on-tertiary-fixed-variant: #004f4f;
+  --color-inverse-surface: #e2e2e8;
+  --color-surface-highest: #333539;
+
+  /* Border radius */
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Spacing tokens */
+  --spacing-container-max-width: 1280px;
+  --spacing-unit: 4px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 48px;
+  --spacing-gutter: 24px;
+
+  /* Fonts */
+  --font-body-md: "Inter", sans-serif;
+  --font-label-code: "JetBrains Mono", monospace;
+  --font-headline-lg: "Inter", sans-serif;
+  --font-headline-lg-mobile: "Inter", sans-serif;
+  --font-display-lg: "Inter", sans-serif;
+  --font-button-text: "Inter", sans-serif;
+  --font-body-sm: "Inter", sans-serif;
+
+  /* Font sizes (size / line-height) */
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-label-code: 13px;
+  --text-label-code--line-height: 16px;
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--letter-spacing: -0.01em;
+  --text-headline-lg-mobile: 24px;
+  --text-headline-lg-mobile--line-height: 32px;
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 56px;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-button-text: 14px;
+  --text-button-text--line-height: 16px;
+  --text-button-text--letter-spacing: 0.01em;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+}
+
+/* ---------------------------------------------------------------- */
+/* Global utility / helper classes carried over from the design     */
+/* ---------------------------------------------------------------- */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(90deg, #8a2be2, #00dddd);
+}
+
+.bg-grid-pattern {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.25s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.modal-pop {
+  animation: modalPop 0.2s ease-out forwards;
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Themed scrollbars — blend with the dark glass UI instead of the
+   default OS scrollbar. Applied globally so every scrollable panel
+   (feed, sidebar, modals, forms) looks intentional. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(220, 184, 255, 0.25) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(220, 184, 255, 0.22);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(220, 184, 255, 0.4);
+  background-clip: content-box;
+}
+
+.modal-pop {
+  animation: modalPop 0.2s ease-out forwards;
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Mobile sidebar drawer */
+.drawer-backdrop {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.drawer-panel {
+  animation: drawerIn 0.25s ease-out forwards;
+}
+
+@keyframes drawerIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+
+/* Themed scrollbar — blends with the dark glass UI instead of the
+   default OS scrollbar. Applied globally so every scroll container
+   (feed, sidebar drawer, trending rail, post forms, etc.) matches. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(138, 43, 226, 0.45) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(138, 43, 226, 0.55),
+    rgba(0, 221, 221, 0.55)
+  );
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(138, 43, 226, 0.8),
+    rgba(0, 221, 221, 0.8)
+  );
+  background-clip: padding-box;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  background-color: #0a0c10;
+  color: #e2e2e8;
+  font-family: "Inter", sans-serif;
+}
