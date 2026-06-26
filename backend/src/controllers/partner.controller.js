@@ -49,9 +49,9 @@ const createPartnerRequest = asyncHandler(async (req, res) => {
     }
     return res.status(201).json(
         new ApiResponse(
-            201,
             newPartnerRequest,
-            "Partner request created successfully"
+            "Partner request created successfully",
+            201
         )
     );
 });
@@ -64,9 +64,9 @@ const getAllPartnerRequests = asyncHandler(async (req, res) => {
 
     return res.status(200).json(
         new ApiResponse(
-            200,
             partnerRequests,
-            "All partner requests fetched successfully"
+            "All partner requests fetched successfully",
+             201
         )
     );
 });
@@ -88,9 +88,9 @@ const getPartnerRequestById = asyncHandler(async (req, res) => {
 
     return res.status(200).json(
         new ApiResponse(
-            200,
             partnerRequest[0],
-            "Partner request fetched successfully"
+            "Partner request fetched successfully",
+             200
         )
     );
 });
@@ -107,11 +107,19 @@ const getPartnerRequestByUserId = asyncHandler(async (req, res) => {
         .from(partnerRequestsTable)
         .where(eq(partnerRequestsTable.userId, userId));
 
+    if (!partnerRequests || partnerRequests.length === 0) {
+        return res.status(200).json(
+            new ApiResponse(
+                "No partner requests found",
+                200
+            )
+        );
+    }
     return res.status(200).json(
         new ApiResponse(
-            200,
-            partnerRequests,
-            "Partner requests fetched successfully"
+            partnerRequests[0],
+            "Partner requests fetched successfully",
+            200
         )
     );
 });
