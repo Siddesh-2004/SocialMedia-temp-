@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Import Axios
 import Input from "../ui/Input";
 
 export default function AuthCard() {
@@ -7,11 +8,43 @@ export default function AuthCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Any non-empty email/password logs the user in and routes to the dashboard.
+    
     if (email.trim() && password.trim()) {
-      navigate("/dashboard");
+      try {
+        // Axios makes the POST request and automatically parses the JSON response
+        const response = await axios.post('http://localhost:8000/api/users/login', 
+          // 1. The Payload
+          { 
+            email: email, 
+            password: password 
+          }, 
+          // 2. The Configuration Options
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            // THIS is the magic line that allows cookies to be sent and received!
+            withCredentials: true 
+          }
+        );
+
+        // Unlike fetch, Axios throws an error for bad status codes (401, 404, etc.)
+        // So if the code reaches this line, the login was a guaranteed 200 OK success!
+        console.log("Login successful!", response.data);
+        navigate("/dashboard");
+        
+      } catch (error) {
+        // Axios packs the server's error response inside error.response
+        console.error("Login failed:", error.response?.data || error.message);
+        
+        if (error.response?.status === 401 || error.response?.status === 404) {
+          alert("Invalid email or password.");
+        } else {
+          alert("Cannot connect to the server. Is the backend running?");
+        }
+      }
     }
   };
 
@@ -69,7 +102,7 @@ export default function AuthCard() {
         <div className="flex gap-4">
           <button
             type="button"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => console.log("GitHub OAuth not yet wired")}
             className="flex-1 bg-transparent border border-border-subtle rounded-lg py-2 flex justify-center items-center gap-2 hover:bg-surface-variant transition-colors"
           >
             <span className="material-symbols-outlined text-[20px]">code</span>
@@ -77,7 +110,7 @@ export default function AuthCard() {
           </button>
           <button
             type="button"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => console.log("Google OAuth not yet wired")}
             className="flex-1 bg-transparent border border-border-subtle rounded-lg py-2 flex justify-center items-center gap-2 hover:bg-surface-variant transition-colors"
           >
             <span className="material-symbols-outlined text-[20px]">mail</span>
